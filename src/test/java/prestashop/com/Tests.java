@@ -12,6 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Tests {
@@ -21,6 +22,7 @@ public class Tests {
     public static MainPage mainPage;
     public static LoginPage loginPage;
     public static ProfilePage profilePage;
+    public static ProductsPage productsPage;
 
     @BeforeTest
     static void setupClass() {
@@ -40,6 +42,7 @@ public class Tests {
         mainPage = new MainPage(driver);
         loginPage = new LoginPage(driver);
         profilePage = new ProfilePage(driver);
+        productsPage = new ProductsPage(driver);
     }
 
     @AfterMethod
@@ -72,4 +75,19 @@ public class Tests {
         logger.info("Verify user is logged in and see his name");
         Assert.assertEquals(profilePage.getUserName(), ConfProperties.getProperty("username"));
     }
+
+    @Test
+    public void checkAllProducts() throws InterruptedException {
+        mainPage.clickHideButton();
+        mainPage.switchToMainContent();
+        mainPage.clickAllProductsLink();
+        List<ProductItem> products = productsPage.getAllProducts();
+        for (int i = 0; i < products.size(); i++){
+            System.out.println(products.get(i).title + " " + products.get(i).price);
+        }
+
+
+    }
+
+
 }

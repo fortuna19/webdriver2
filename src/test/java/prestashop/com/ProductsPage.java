@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.XMLFormatter;
 
 public class ProductsPage {
     WebDriver driver;
@@ -20,11 +21,14 @@ public class ProductsPage {
     @FindBy(xpath = "//nav[@class='pagination']//a[@rel='nofollow']")
     private List<WebElement> paginationPages;
 
-    @FindBy(css = "article h2[@itemprop='name']")
-    private List<WebElement> productTitles;
+    @FindBy(xpath = "//article")
+    private List<WebElement> productsOnPage;
 
-    @FindBy(xpath = "//article//span[@class='price']")
-    private List<WebElement> productPrices;
+//    @FindBy(css = "article h2[@itemprop='name']")
+//    private List<WebElement> productTitles;
+
+//    @FindBy(xpath = "//article//span[@class='price']")
+//    private List<WebElement> productPrices;
 
     @FindBy(xpath = "//article//span[@class='Regular price']")
     private List<WebElement> productRegularPrices;
@@ -34,12 +38,12 @@ public class ProductsPage {
 
     public List<ProductItem> getAllProducts() throws InterruptedException {
         List<ProductItem> products = new ArrayList<>();
-        for (int i = 0; i < paginationPages.size(); i++){
+        for (int i = 0; i < paginationPages.size(); i++) {
             paginationPages.get(i).click();
             Thread.sleep(3000);
-            for (int j = 0; j < productTitles.size(); j++){
-                String title = productTitles.get(j).getText();
-                String price = productPrices.get(j).getText();
+            for (int j = 0; j < productsOnPage.size(); j++) {
+                String title = productsOnPage.get(j).findElement(By.xpath(String.format("(//h2[@itemprop='name'])[%d]", j + 1))).getText();
+                String price = productsOnPage.get(j).findElement(By.xpath(String.format("(//span[@class='price'])[%d]", j + 1))).getText();
                 products.add(new ProductItem(title, price));
             }
         }

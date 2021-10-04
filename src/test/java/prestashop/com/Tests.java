@@ -86,9 +86,5 @@ public class Tests {
         for (int i = 0; i < products.size(); i++){
             System.out.println(products.get(i).toString());
         }
-
-
     }
-
-
 }

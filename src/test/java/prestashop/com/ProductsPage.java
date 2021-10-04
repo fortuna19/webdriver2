@@ -20,7 +20,7 @@ public class ProductsPage {
     @FindBy(xpath = "//nav[@class='pagination']//a[@rel='nofollow']")
     private List<WebElement> paginationPages;
 
-    @FindBy(xpath = "//article//h2[@itemprop='name']")
+    @FindBy(css = "article h2[@itemprop='name']")
     private List<WebElement> productTitles;
 
     @FindBy(xpath = "//article//span[@class='price']")

@@ -82,8 +82,9 @@ public class Tests {
         mainPage.switchToMainContent();
         mainPage.clickAllProductsLink();
         List<ProductItem> products = productsPage.getAllProducts();
+        System.out.println(products.size());
         for (int i = 0; i < products.size(); i++){
-            System.out.println(products.get(i).title + " " + products.get(i).price);
+            System.out.println(products.get(i).toString());
         }
 
 

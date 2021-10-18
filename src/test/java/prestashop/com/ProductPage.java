@@ -8,7 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductPage {
     WebDriver driver;
@@ -28,7 +30,7 @@ public class ProductPage {
     private WebElement shortDescription;
 
     @FindBy(xpath = "//form[@id='add-to-cart-or-refresh']/div/div/span[@class='control-label']")
-    private WebElement productVariantsTitle;
+    private List<WebElement> productVariantsTitle;
 
     @FindBy(xpath = "//div[@id='tab-content']//span")
     private WebElement fullDescription;
@@ -51,7 +53,16 @@ public class ProductPage {
     @FindBy(xpath = "//form[@id='add-to-cart-or-refresh']//option")
     private List<WebElement> sizeOptions;
 
-    public List<FullProductItem> getFullProductItemslist(List<ProductItem> products) {
+    @FindBy(xpath = "//section[@class='product-features']//dt")
+    private List<WebElement> productFeaturesNames;
+
+    @FindBy(xpath = "//section[@class='product-features']//dd")
+    private List<WebElement> productFeaturesValues;
+
+    @FindBy(xpath = "//a[text()='Product Details']")
+    private WebElement productDetailsButton;
+
+    public List<FullProductItem> getFullProductItemslist(List<ProductItem> products) throws InterruptedException {
 
         List<FullProductItem> fullProductItemslist = new ArrayList<>();
 
@@ -60,8 +71,9 @@ public class ProductPage {
             List<String> productDimensionOptions = new ArrayList<>();
             List<String> productColorOptions = new ArrayList<>();
             List<String> productSizeOptions = new ArrayList<>();
+            Map<String, String> productFeatures = new HashMap<String, String>();
 
-            String variationTitle;
+            String variationTitle = null;
             String url = products.get(i).getUrl();
             driver.get(url);
             String productTitle = title.getText();
@@ -72,51 +84,59 @@ public class ProductPage {
 //            String productInStock = inStock.getText();
 
             //***Check that variation title is present and set it
-            if (!isPresent("//form[@id='add-to-cart-or-refresh']/div/div/span[@class='control-label']")) {
-                variationTitle = null;
-            } else {
-                variationTitle = productVariantsTitle.getText();
-            }
+            if (isPresent("//form[@id='add-to-cart-or-refresh']/div/div/span[@class='control-label']")) {
+                for (int k = 0; k < productVariantsTitle.size(); k++) {
+                    variationTitle = productVariantsTitle.get(k).getText();
 
-            //***Retrieve dimension options
-            if (variationTitle != null && variationTitle.contains("Dimension")) {
-                if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
-                    for (int j = 0; j < dimensionOptions.size(); j++) {
-                        String option = dimensionOptions.get(j).getText();
-                        productDimensionOptions.add(option);
+                    //***Retrieve dimension options
+                    if (variationTitle.contains("Dimension")) {
+                        if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
+                            for (int j = 0; j < dimensionOptions.size(); j++) {
+                                String option = dimensionOptions.get(j).getText();
+                                productDimensionOptions.add(option);
+                            }
+                        }
+                    }
+
+                    //***Retrieve paper type options
+                    if (variationTitle.contains("Paper Type")) {
+                        if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
+                            for (int j = 0; j < paperTypeOptions.size(); j++) {
+                                String option = paperTypeOptions.get(j).getText();
+                                productPaperTypeOptions.add(option);
+                            }
+                        }
+                    }
+
+                    //***Retrieve colors
+                    if (variationTitle.contains("Color")) {
+                        if (isPresent("//form[@id='add-to-cart-or-refresh']//li/label")) {
+                            for (int j = 0; j < colorOptions.size(); j++) {
+                                String option = colorOptions.get(j).getText();
+                                productColorOptions.add(option);
+                            }
+                        }
+                    }
+
+                    //***Retrieve sizes
+                    if (variationTitle.contains("Size")) {
+                        if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
+                            for (int j = 0; j < sizeOptions.size(); j++) {
+                                String option = sizeOptions.get(j).getText();
+                                productSizeOptions.add(option);
+                            }
+                        }
                     }
                 }
             }
-
-            //***Retrieve paper type options
-            if (variationTitle != null && variationTitle.contains("Paper Type")) {
-                if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
-                    for (int j = 0; j < paperTypeOptions.size(); j++) {
-                        String option = paperTypeOptions.get(j).getText();
-                        productPaperTypeOptions.add(option);
-                    }
+            if (isPresent("//section[@class='product-features']//dt") && isPresent("//section[@class='product-features']//dd")){
+                productDetailsButton.click();
+                Thread.sleep(2000);
+                for (int l = 0; l < productFeaturesNames.size(); l++){
+                    productFeatures.put(productFeaturesNames.get(l).getText(), productFeaturesValues.get(l).getText());
                 }
             }
 
-            //***Retrieve colors
-            if (variationTitle != null && variationTitle.contains("Color")) {
-                if (isPresent("//form[@id='add-to-cart-or-refresh']//li/label")) {
-                    for (int j = 0; j < colorOptions.size(); j++) {
-                        String option = colorOptions.get(j).getText();
-                        productColorOptions.add(option);
-                    }
-                }
-            }
-
-            //***Retrieve sizes
-            if (variationTitle != null && variationTitle.contains("Size")) {
-                if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
-                    for (int j = 0; j < sizeOptions.size(); j++) {
-                        String option = sizeOptions.get(j).getText();
-                        productSizeOptions.add(option);
-                    }
-                }
-            }
 
             fullProductItemslist.add(new FullProductItem(
                     productTitle,
@@ -124,7 +144,8 @@ public class ProductPage {
                     productPaperTypeOptions,
                     productDimensionOptions,
                     productColorOptions,
-                    productSizeOptions
+                    productSizeOptions,
+                    productFeatures
             ));
         }
         return fullProductItemslist;

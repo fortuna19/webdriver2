@@ -2,20 +2,25 @@ package prestashop.com;
 
 public class ProductItem {
     private String title;
-    private String price;
-//    public float regularPrice;
+    private double price;
+    private String url;
 
-    public ProductItem(String title, String price) {
+    public ProductItem(String title, double price, String url) {
         this.title = title;
         this.price = price;
+        this.url = url;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     @Override
@@ -23,6 +28,7 @@ public class ProductItem {
         return "ProductItem{" +
                 "title='" + title + '\'' +
                 ", price='" + price + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

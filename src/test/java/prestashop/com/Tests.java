@@ -22,7 +22,8 @@ public class Tests {
     public static MainPage mainPage;
     public static LoginPage loginPage;
     public static ProfilePage profilePage;
-    public static ProductsPage productsPage;
+    public static ProductsListPage productsListPage;
+    public static ProductPage productPage;
 
     @BeforeTest
     static void setupClass() {
@@ -42,7 +43,9 @@ public class Tests {
         mainPage = new MainPage(driver);
         loginPage = new LoginPage(driver);
         profilePage = new ProfilePage(driver);
-        productsPage = new ProductsPage(driver);
+        productsListPage = new ProductsListPage(driver);
+        productPage = new ProductPage(driver);
+
     }
 
     @AfterMethod
@@ -81,10 +84,18 @@ public class Tests {
         mainPage.clickHideButton();
         mainPage.switchToMainContent();
         mainPage.clickAllProductsLink();
-        List<ProductItem> products = productsPage.getAllProducts();
-        System.out.println(products.size());
+        List<ProductItem> products = productsListPage.getAllProducts();
+
         for (int i = 0; i < products.size(); i++){
             System.out.println(products.get(i).toString());
+        }
+
+        System.out.println();
+        System.out.println();
+
+        List<FullProductItem> fullProductItemList = productPage.getFullProductItemslist(products);
+        for (int i = 0; i < fullProductItemList.size(); i++){
+            System.out.println(fullProductItemList.get(i).toString());
         }
     }
 }

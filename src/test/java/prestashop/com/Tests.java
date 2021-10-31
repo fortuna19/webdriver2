@@ -12,6 +12,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -80,20 +82,41 @@ public class Tests {
     }
 
     @Test
-    public void checkAllProducts() throws InterruptedException {
+    public void checkAllProducts() throws InterruptedException, IOException, ClassNotFoundException {
         mainPage.clickHideButton();
         mainPage.switchToMainContent();
         mainPage.clickAllProductsLink();
         List<ProductItem> products = productsListPage.getAllProducts();
+/*
+        for (int i = 0; i < products.size(); i++){
+            System.out.println(products.get(i).toString());
+        }
 
-//        for (int i = 0; i < products.size(); i++){
-//            System.out.println(products.get(i).toString());
-//        }
-//
-//        System.out.println();
-//        System.out.println();
+        System.out.println();
+        System.out.println();
+
+ */
+
+        /* Parse all products one by one and serialize them to file
 
         List<FullProductItem> fullProductItemList = productPage.getFullProductItemslist(products);
+        for (int i = 0; i < fullProductItemList.size(); i++){
+            System.out.println(fullProductItemList.get(i).toString());
+        }
+
+
+        FileOutputStream outputStream = new FileOutputStream("D:\\product_items.file");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+
+        objectOutputStream.writeObject(fullProductItemList);
+        objectOutputStream.close();
+
+         */
+
+        FileInputStream fileInputStream = new FileInputStream("D:\\product_items.file");
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+
+        List<FullProductItem> fullProductItemList = (List<FullProductItem>) objectInputStream.readObject();
         for (int i = 0; i < fullProductItemList.size(); i++){
             System.out.println(fullProductItemList.get(i).toString());
         }

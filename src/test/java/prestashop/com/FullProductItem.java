@@ -1,10 +1,13 @@
 package prestashop.com;
 
-import java.util.Collections;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class FullProductItem {
+public class FullProductItem implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String title;
     private float price;
     private List<String> paperType;

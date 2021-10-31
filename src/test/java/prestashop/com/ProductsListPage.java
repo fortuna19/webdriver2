@@ -8,7 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.XMLFormatter;
 
 public class ProductsListPage {
     WebDriver driver;
@@ -39,6 +38,14 @@ public class ProductsListPage {
     @FindBy(xpath = "//select[@class='form-control form-control-select']/option")
     private List<WebElement> productSizes;
 
+    @FindBy(xpath = "//div[@id='search_filters']")
+    private WebElement leftMenuBlock;
+
+    @FindBy(xpath = "//section[@class='facet clearfix']")
+    private List<WebElement> searchFilters;
+
+
+
 
     /*Working method*/
     public List<ProductItem> getAllProducts() throws InterruptedException {
@@ -57,5 +64,7 @@ public class ProductsListPage {
         }
         return products;
     }
+
+
 }
 

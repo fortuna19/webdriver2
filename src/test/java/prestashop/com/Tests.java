@@ -113,7 +113,7 @@ public class Tests {
         objectOutputStream.close();
         */
 
-        FileInputStream fileInputStream = new FileInputStream("D:\\product_items.file");
+        FileInputStream fileInputStream = new FileInputStream("src/test/resources/product_items.file");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
         List<FullProductItem> fullProductItemList = (List<FullProductItem>) objectInputStream.readObject();

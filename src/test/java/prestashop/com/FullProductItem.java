@@ -26,6 +26,62 @@ public class FullProductItem implements Serializable {
         this.features = features;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public List<String> getPaperType() {
+        return paperType;
+    }
+
+    public void setPaperType(List<String> paperType) {
+        this.paperType = paperType;
+    }
+
+    public List<String> getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(List<String> dimension) {
+        this.dimension = dimension;
+    }
+
+    public List<String> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<String> colors) {
+        this.colors = colors;
+    }
+
+    public List<String> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<String> sizes) {
+        this.sizes = sizes;
+    }
+
+    public Map<String, String> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Map<String, String> features) {
+        this.features = features;
+    }
+
     @Override
     public String toString() {
         return "FullProductItem{" +

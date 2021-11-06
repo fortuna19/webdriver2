@@ -16,6 +16,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class Tests {
 
@@ -83,35 +84,34 @@ public class Tests {
 
     @Test
     public void checkAllProducts() throws InterruptedException, IOException, ClassNotFoundException {
+        /* Clicking on pagination pages and retrieving links for every object
         mainPage.clickHideButton();
         mainPage.switchToMainContent();
         mainPage.clickAllProductsLink();
         List<ProductItem> products = productsListPage.getAllProducts();
-/*
+        */
+
+
+        /* Print the list of products with links
         for (int i = 0; i < products.size(); i++){
             System.out.println(products.get(i).toString());
         }
-
         System.out.println();
         System.out.println();
-
- */
+        */
 
         /* Parse all products one by one and serialize them to file
-
         List<FullProductItem> fullProductItemList = productPage.getFullProductItemslist(products);
         for (int i = 0; i < fullProductItemList.size(); i++){
             System.out.println(fullProductItemList.get(i).toString());
         }
-
 
         FileOutputStream outputStream = new FileOutputStream("D:\\product_items.file");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
         objectOutputStream.writeObject(fullProductItemList);
         objectOutputStream.close();
-
-         */
+        */
 
         FileInputStream fileInputStream = new FileInputStream("D:\\product_items.file");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -120,5 +120,33 @@ public class Tests {
         for (int i = 0; i < fullProductItemList.size(); i++){
             System.out.println(fullProductItemList.get(i).toString());
         }
+
+
+        List<FullProductItem> filteredByColor = filterByColor(fullProductItemList, "Black");
+        for (int i = 0; i < filteredByColor.size(); i++){
+            System.out.println(filteredByColor.get(i).toString());
+        }
+
+        List<FullProductItem> filteredBySizes = filterBySize(fullProductItemList, "S");
+        for (int i = 0; i < filteredBySizes.size(); i++){
+            System.out.println(filteredBySizes.get(i).toString());
+        }
+
+    }
+
+    public static List<FullProductItem> filterByColor(List<FullProductItem> products, String color){
+        System.out.println("_________________________________________________________________________");
+        System.out.println("Filtered list by Color with using of STREAMS");
+        return products.stream()
+                .filter(FullProductItem -> FullProductItem.getColors().contains(color))
+                .collect(Collectors.toList());
+    }
+
+    public static List<FullProductItem> filterBySize(List<FullProductItem> products, String size){
+        System.out.println("_________________________________________________________________________");
+        System.out.println("Filtered list by Size with using of STREAMS");
+        return products.stream()
+                .filter(FullProductItem -> FullProductItem.getSizes().contains(size))
+                .collect(Collectors.toList());
     }
 }

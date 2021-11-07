@@ -1,7 +1,6 @@
-package prestashop.com;
+package prestashop.com.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -129,10 +128,10 @@ public class ProductPage {
                     }
                 }
             }
-            if (isPresent("//section[@class='product-features']//dt") && isPresent("//section[@class='product-features']//dd")){
+            if (isPresent("//section[@class='product-features']//dt") && isPresent("//section[@class='product-features']//dd")) {
                 productDetailsButton.click();
                 Thread.sleep(2000);
-                for (int l = 0; l < productFeaturesNames.size(); l++){
+                for (int l = 0; l < productFeaturesNames.size(); l++) {
                     productFeatures.put(productFeaturesNames.get(l).getText(), productFeaturesValues.get(l).getText());
                 }
             }
@@ -154,5 +153,4 @@ public class ProductPage {
     public boolean isPresent(String xpath) {
         return driver.findElements(By.xpath(xpath)).size() > 0;
     }
-
 }

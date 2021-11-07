@@ -1,4 +1,4 @@
-package prestashop.com;
+package prestashop.com.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

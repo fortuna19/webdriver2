@@ -1,4 +1,4 @@
-package prestashop.com;
+package prestashop.com.pages;
 
 import java.io.Serializable;
 import java.util.List;

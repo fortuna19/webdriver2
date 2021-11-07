@@ -1,4 +1,4 @@
-package prestashop.com;
+package prestashop.com.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -45,8 +45,6 @@ public class ProductsListPage {
     private List<WebElement> searchFilters;
 
 
-
-
     /*Working method*/
     public List<ProductItem> getAllProducts() throws InterruptedException {
         List<ProductItem> products = new ArrayList<>();
@@ -64,7 +62,5 @@ public class ProductsListPage {
         }
         return products;
     }
-
-
 }
 

@@ -1,4 +1,4 @@
-package prestashop.com;
+package prestashop.com.pages;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;

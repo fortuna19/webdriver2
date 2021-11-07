@@ -1,4 +1,4 @@
-package prestashop.com;
+package prestashop.com.pages;
 
 public class ProductItem {
     private String title;

@@ -17,8 +17,9 @@ import prestashop.com.utils.ConfProperties;
 import java.io.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
+import static prestashop.com.pages.FullProductItem.filterByColor;
+import static prestashop.com.pages.FullProductItem.filterBySize;
 import static prestashop.com.utils.Utils.*;
 
 public class Tests {
@@ -63,7 +64,7 @@ public class Tests {
         driver.quit();
     }
 
-    @Test
+    @Test(enabled = false)
     public void loginTest() {
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -90,42 +91,49 @@ public class Tests {
     }
 
     @Test
-    public void checkAllProducts() {
-        //Clicking on pagination pages and retrieving links for every object
-        /*
+    public void checkFilterByColor() throws InterruptedException {
+
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        logger.info("Open the main page and click the Hide button");
         mainPage.clickHideButton();
+
+        logger.info("Switch from top frame to main content");
         mainPage.switchToMainContent();
+
+        logger.info("Click the All products link");
         mainPage.clickAllProductsLink();
-        List<ProductItem> products = productsListPage.getAllProducts();
-        */
 
-        //serializeObject(fullProductItemList, "src/test/resources/product_items.file");
+        logger.info("Filter all products by the Black color and retrieve their titles");
+        productsListPage.filterByBlackColor();
+        List<String> productsOnPage = productsListPage.getProductTitlesOnPage();
 
-        List<FullProductItem> filteredByColor = filterByColor(fullProductItemList, "Black");
-        for (int i = 0; i < filteredByColor.size(); i++) {
-            System.out.println(filteredByColor.get(i).toString());
-        }
-
-        List<FullProductItem> filteredBySizes = filterBySize(fullProductItemList, "S");
-        for (int i = 0; i < filteredBySizes.size(); i++) {
-            System.out.println(filteredBySizes.get(i).toString());
-        }
+        logger.info("Verify all products filtered as expected");
+        List<String> filteredByColor = filterByColor(fullProductItemList, "Black");
+        Assert.assertEquals(productsOnPage, filteredByColor);
     }
 
-    public static List<FullProductItem> filterByColor(List<FullProductItem> products, String color) {
-        System.out.println("_________________________________________________________________________");
-        System.out.println("Filtered list by Color with using of STREAMS");
-        return products.stream()
-                .filter(FullProductItem -> FullProductItem.getColors().contains(color))
-                .collect(Collectors.toList());
-    }
+    @Test
+    public void checkFilterBySizeS() throws InterruptedException {
 
-    public static List<FullProductItem> filterBySize(List<FullProductItem> products, String size) {
-        System.out.println("_________________________________________________________________________");
-        System.out.println("Filtered list by Size with using of STREAMS");
-        return products.stream()
-                .filter(FullProductItem -> FullProductItem.getSizes().contains(size))
-                .collect(Collectors.toList());
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        logger.info("Open the main page and click the Hide button");
+        mainPage.clickHideButton();
+
+        logger.info("Switch from top frame to main content");
+        mainPage.switchToMainContent();
+
+        logger.info("Click the All products link");
+        mainPage.clickAllProductsLink();
+
+        logger.info("Filter all products by the S Size and retrieve their titles");
+        productsListPage.filterBySizeS();
+        List<String> productsOnPage = productsListPage.getProductTitlesOnPage();
+
+        logger.info("Verify all products filtered as expected");
+        List<String> filteredBySizes = filterBySize(fullProductItemList, "S");
+        Assert.assertEquals(productsOnPage, filteredBySizes);
     }
 
     public static List<FullProductItem> parseAllProducts(List<ProductItem> products) throws InterruptedException {

@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductsListPage {
     WebDriver driver;
@@ -44,11 +45,34 @@ public class ProductsListPage {
     @FindBy(xpath = "//section[@class='facet clearfix']")
     private List<WebElement> searchFilters;
 
+    @FindBy(xpath = "//section[@class='facet clearfix'][3]//li[2]")
+    private WebElement filterByBlackColorCheckbox;
+
+    @FindBy(xpath = "//section[@class='facet clearfix'][2]//li[1]")
+    private WebElement filterBySizeS;
+
+    public void filterByBlackColor(){
+        filterByBlackColorCheckbox.click();
+    }
+
+    public void filterBySizeS(){
+        filterBySizeS.click();
+    }
+
+    public List<String> getProductTitlesOnPage() throws InterruptedException {
+        Thread.sleep(1000);
+        List<String> titlesOnPage = new ArrayList<>();
+        String title;
+        for(int i = 0; i < productsOnPage.size(); i++){
+            title = productsOnPage.get(i).findElement(By.xpath(String.format("(//article//h2)[%d]", i + 1))).getText().toLowerCase(Locale.ROOT);
+            titlesOnPage.add(title);
+        }
+        return titlesOnPage;
+    }
 
     /*Working method*/
     public List<ProductItem> getAllProducts() throws InterruptedException {
         List<ProductItem> products = new ArrayList<>();
-        List<String> sizes = new ArrayList<>();
         for (int i = 0; i < paginationPages.size(); i++) {
             paginationPages.get(i).click();
             Thread.sleep(1000);

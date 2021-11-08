@@ -2,7 +2,9 @@ package prestashop.com.pages;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FullProductItem implements Serializable {
 
@@ -93,5 +95,19 @@ public class FullProductItem implements Serializable {
                 ", sizes=" + sizes +
                 ", features=" + features +
                 '}';
+    }
+
+    public static List<String> filterByColor(List<FullProductItem> products, String color) {
+        return products.stream()
+                .filter(FullProductItem -> FullProductItem.getColors().contains(color))
+                .map(e -> e.getTitle().toLowerCase(Locale.ROOT))
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> filterBySize(List<FullProductItem> products, String size) {
+        return products.stream()
+                .filter(FullProductItem -> FullProductItem.getSizes().contains(size))
+                .map(e -> e.getTitle().toLowerCase(Locale.ROOT))
+                .collect(Collectors.toList());
     }
 }

@@ -38,27 +38,27 @@ public class ProfilePage {
         return userName.getText();
     }
 
-    public void clickInformationMenu(){
+    public void clickInformationMenu() {
         informationMenu.click();
     }
 
-    public void clickAddFirstAddressMenu(){
+    public void clickAddFirstAddressMenu() {
         addFirstAddressMenu.click();
     }
 
-    public void clickOrderHistoryMenu(){
+    public void clickOrderHistoryMenu() {
         historyMenu.click();
     }
 
-    public void clickCreditSlipsMenu(){
+    public void clickCreditSlipsMenu() {
         creditSlipsMenu.click();
     }
 
-    public void clickGDPRPersonalDataMenu(){
+    public void clickGDPRPersonalDataMenu() {
         gdprPersonalDataMenu.click();
     }
 
-    public void clickSignOut(){
+    public void clickSignOut() {
         signOutLink.click();
     }
 }

@@ -31,6 +31,7 @@ public class Tests {
     public static ProfilePage profilePage;
     public static ProductsListPage productsListPage;
     public static ProductPage productPage;
+    public static RegistrationPage registrationPage;
     public static List<FullProductItem> fullProductItemList;
 
     @BeforeTest
@@ -56,6 +57,7 @@ public class Tests {
         profilePage = new ProfilePage(driver);
         productsListPage = new ProductsListPage(driver);
         productPage = new ProductPage(driver);
+        registrationPage = new RegistrationPage(driver);
 
     }
 
@@ -64,7 +66,57 @@ public class Tests {
         driver.quit();
     }
 
-    @Test(enabled = false)
+    @Test(priority = 1)
+    public void registration() {
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        logger.info("Open the main page and click the Hide button");
+        mainPage.clickHideButton();
+
+        logger.info("Switch from top frame to main content");
+        mainPage.switchToMainContent();
+
+        logger.info("Click the Sign In button");
+        mainPage.clickSignInButton();
+
+        logger.info("Click the 'No account? Create one here' link");
+        loginPage.clickCreateNewAccountLink();
+
+        logger.info("Choose the social title");
+        registrationPage.chooseSocialTitle("Mr");
+
+        logger.info("Enter first name");
+        registrationPage.clickFirstNameField();
+        registrationPage.enterTextInField("First name", ConfProperties.getProperty("username"));
+
+        logger.info("Enter last name");
+        registrationPage.clickLastNameInput();
+        registrationPage.enterTextInField("Last name", ConfProperties.getProperty("lastname"));
+
+        logger.info("Enter email");
+        registrationPage.clickEmailInput();
+        registrationPage.enterTextInField("Email", ConfProperties.getProperty("email"));
+
+        logger.info("Enter password");
+        registrationPage.clickPasswordInput();
+        registrationPage.enterTextInField("Password", ConfProperties.getProperty("password"));
+
+        logger.info("Enter birthdate");
+        registrationPage.clickBirthdateInput();
+        registrationPage.enterTextInField("Birthdate", ConfProperties.getProperty("birthdate"));
+
+        logger.info("Click all necessary checkboxes");
+        registrationPage.clickCustomerDataPrivacyCheckbox();
+        registrationPage.clickAgreeTermsCheckbox();
+
+        logger.info("Click the Save button");
+        registrationPage.clickSaveButton();
+
+        logger.info("Verify user is logged in and see his name");
+        Assert.assertEquals(registrationPage.getUserNameLastname(), (ConfProperties.getProperty("username") + " " + ConfProperties.getProperty("lastname")));
+    }
+
+    @Test(priority = 2)
     public void loginTest() {
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -78,7 +130,7 @@ public class Tests {
         mainPage.clickSignInButton();
 
         logger.info("Enter user email and click the Tab key");
-        loginPage.inputEmail(ConfProperties.getProperty("login"));
+        loginPage.inputEmail(ConfProperties.getProperty("email"));
 
         logger.info("Enter user password");
         loginPage.inputPassword(ConfProperties.getProperty("password"));
@@ -87,11 +139,11 @@ public class Tests {
         loginPage.clickSignInButton();
 
         logger.info("Verify user is logged in and see his name");
-        Assert.assertEquals(profilePage.getUserName(), ConfProperties.getProperty("username"));
+        Assert.assertEquals(registrationPage.getUserNameLastname(), (ConfProperties.getProperty("username") + " " + ConfProperties.getProperty("lastname")));
     }
 
     @Test
-    public void checkFilterByColor() throws InterruptedException {
+    public void checkFilterByColor() {
 
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -114,7 +166,7 @@ public class Tests {
     }
 
     @Test
-    public void checkFilterBySizeS() throws InterruptedException {
+    public void checkFilterBySizeS() {
 
         Logger logger = LoggerFactory.getLogger(this.getClass());
 

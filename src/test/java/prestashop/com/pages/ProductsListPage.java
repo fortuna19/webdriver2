@@ -51,19 +51,24 @@ public class ProductsListPage {
     @FindBy(xpath = "//section[@class='facet clearfix'][2]//li[1]")
     private WebElement filterBySizeS;
 
-    public void filterByBlackColor(){
+    public void filterByBlackColor() {
         filterByBlackColorCheckbox.click();
     }
 
-    public void filterBySizeS(){
+    public void filterBySizeS() {
         filterBySizeS.click();
     }
 
-    public List<String> getProductTitlesOnPage() throws InterruptedException {
-        Thread.sleep(1000);
+    public List<String> getProductTitlesOnPage() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         List<String> titlesOnPage = new ArrayList<>();
         String title;
-        for(int i = 0; i < productsOnPage.size(); i++){
+        for (int i = 0; i < productsOnPage.size(); i++) {
             title = productsOnPage.get(i).findElement(By.xpath(String.format("(//article//h2)[%d]", i + 1))).getText().toLowerCase(Locale.ROOT);
             titlesOnPage.add(title);
         }
@@ -71,11 +76,17 @@ public class ProductsListPage {
     }
 
     /*Working method*/
-    public List<ProductItem> getAllProducts() throws InterruptedException {
+    public List<ProductItem> getAllProducts() {
         List<ProductItem> products = new ArrayList<>();
         for (int i = 0; i < paginationPages.size(); i++) {
             paginationPages.get(i).click();
-            Thread.sleep(1000);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             for (int j = 0; j < productsOnPage.size(); j++) {
 
                 String title = productsOnPage.get(j).findElement(By.xpath(String.format("(//h2)[%d]", j + 1))).getText();

@@ -23,6 +23,9 @@ public class LoginPage {
     @FindBy(xpath = "//button[@id='submit-login']")
     private WebElement signInButton;
 
+    @FindBy(xpath = "//div[@class='no-account']/a")
+    private WebElement createNewAccountLink;
+
     public void inputEmail(String email) {
         emailInput.sendKeys(email, Keys.TAB);
     }
@@ -33,5 +36,9 @@ public class LoginPage {
 
     public void clickSignInButton() {
         signInButton.click();
+    }
+
+    public void clickCreateNewAccountLink() {
+        createNewAccountLink.click();
     }
 }

@@ -61,7 +61,7 @@ public class ProductPage {
     @FindBy(xpath = "//a[text()='Product Details']")
     private WebElement productDetailsButton;
 
-    public List<FullProductItem> getFullProductItemslist(List<ProductItem> products) throws InterruptedException {
+    public List<FullProductItem> getFullProductItemslist(List<ProductItem> products) {
 
         List<FullProductItem> fullProductItemslist = new ArrayList<>();
 
@@ -130,7 +130,13 @@ public class ProductPage {
             }
             if (isPresent("//section[@class='product-features']//dt") && isPresent("//section[@class='product-features']//dd")) {
                 productDetailsButton.click();
-                Thread.sleep(2000);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 for (int l = 0; l < productFeaturesNames.size(); l++) {
                     productFeatures.put(productFeaturesNames.get(l).getText(), productFeaturesValues.get(l).getText());
                 }

@@ -110,4 +110,11 @@ public class FullProductItem implements Serializable {
                 .map(e -> e.getTitle().toLowerCase(Locale.ROOT))
                 .collect(Collectors.toList());
     }
+
+    public static List<String> sortByNameAToZ(List<FullProductItem> products){
+        return products.stream()
+                .sorted((p1, p2) -> p1.getTitle().compareTo(p2.getTitle()))
+                .map(e -> e.getTitle())
+                .collect(Collectors.toList());
+    }
 }

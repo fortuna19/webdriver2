@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static prestashop.com.utils.Utils.sleep;
+
 public class ProductsListPage {
     WebDriver driver;
 
@@ -60,11 +62,7 @@ public class ProductsListPage {
     }
 
     public List<String> getProductTitlesOnPage() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep(1000);
 
         List<String> titlesOnPage = new ArrayList<>();
         String title;
@@ -81,11 +79,7 @@ public class ProductsListPage {
         for (int i = 0; i < paginationPages.size(); i++) {
             paginationPages.get(i).click();
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sleep(1000);
 
             for (int j = 0; j < productsOnPage.size(); j++) {
 

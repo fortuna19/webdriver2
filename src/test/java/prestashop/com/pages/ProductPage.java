@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static prestashop.com.utils.Utils.sleep;
+
 public class ProductPage {
     WebDriver driver;
 
@@ -131,11 +133,7 @@ public class ProductPage {
             if (isPresent("//section[@class='product-features']//dt") && isPresent("//section[@class='product-features']//dd")) {
                 productDetailsButton.click();
 
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleep(2000);
 
                 for (int l = 0; l < productFeaturesNames.size(); l++) {
                     productFeatures.put(productFeaturesNames.get(l).getText(), productFeaturesValues.get(l).getText());

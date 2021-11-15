@@ -18,8 +18,7 @@ import java.io.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static prestashop.com.pages.FullProductItem.filterByColor;
-import static prestashop.com.pages.FullProductItem.filterBySize;
+import static prestashop.com.pages.FullProductItem.*;
 import static prestashop.com.utils.Utils.*;
 
 public class Tests {
@@ -43,14 +42,14 @@ public class Tests {
     }
 
     @BeforeMethod
-    void setupTest() throws InterruptedException {
+    void setupTest() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 1);
 
         driver.get(ConfProperties.getProperty("homepage"));
-        Thread.sleep(5000);
+        sleep(5000);
 
         mainPage = new MainPage(driver);
         loginPage = new LoginPage(driver);
@@ -187,6 +186,15 @@ public class Tests {
         List<String> filteredBySizes = filterBySize(fullProductItemList, "S");
         Assert.assertEquals(productsOnPage, filteredBySizes);
     }
+
+    @Test
+    public static void sortProducts(){
+        List<String> sortedProducts = sortByNameAToZ(fullProductItemList);
+        for (int i = 0; i < sortedProducts.size(); i++){
+            System.out.println(sortedProducts.get(i));
+        }
+    }
+
 
     public static List<FullProductItem> parseAllProducts(List<ProductItem> products) throws InterruptedException {
         List<FullProductItem> fullProductItemList = productPage.getFullProductItemslist(products);

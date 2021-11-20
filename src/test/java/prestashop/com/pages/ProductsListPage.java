@@ -8,7 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
+import static prestashop.com.utils.Utils.sleep;
 
 public class ProductsListPage {
     WebDriver driver;
@@ -51,6 +52,12 @@ public class ProductsListPage {
     @FindBy(xpath = "//section[@class='facet clearfix'][2]//li[1]")
     private WebElement filterBySizeS;
 
+    @FindBy(xpath = "//button[@aria-label='Sort by selection']")
+    private WebElement sortByDropdown;
+
+    @FindBy(xpath = "(//div[@class='dropdown-menu']/a)[3]")
+    private WebElement sortByNameAToZ;
+
     public void filterByBlackColor() {
         filterByBlackColorCheckbox.click();
     }
@@ -59,43 +66,45 @@ public class ProductsListPage {
         filterBySizeS.click();
     }
 
-    public List<String> getProductTitlesOnPage() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        List<String> titlesOnPage = new ArrayList<>();
-        String title;
-        for (int i = 0; i < productsOnPage.size(); i++) {
-            title = productsOnPage.get(i).findElement(By.xpath(String.format("(//article//h2)[%d]", i + 1))).getText().toLowerCase(Locale.ROOT);
-            titlesOnPage.add(title);
-        }
-        return titlesOnPage;
-    }
-
-    /*Working method*/
     public List<ProductItem> getAllProducts() {
         List<ProductItem> products = new ArrayList<>();
-        for (int i = 0; i < paginationPages.size(); i++) {
-            paginationPages.get(i).click();
+        int pages;
+        sleep(1000);
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (driver.findElements(By.xpath("//nav[@class='pagination']//a[@rel='nofollow']")).size() > 0) {
+            pages = paginationPages.size();
+        } else {
+            pages = 1;
+        }
+
+        for (int i = 0; i < pages; i++) {
+            if (driver.findElements(By.xpath("//nav[@class='pagination']//a[@rel='nofollow']")).size() > 0) {
+                paginationPages.get(i).click();
             }
+
+            sleep(1000);
 
             for (int j = 0; j < productsOnPage.size(); j++) {
 
-                String title = productsOnPage.get(j).findElement(By.xpath(String.format("(//h2)[%d]", j + 1))).getText();
-                double price = Double.parseDouble(productsOnPage.get(j).findElement(By.xpath(String.format("(//span[@class='price'])[%d]", j + 1))).getText().substring(1));
-                String url = productsOnPage.get(j).findElement(By.xpath(String.format("(//div[@class='thumbnail-container reviews-loaded']/a)[%d]", j + 1))).getAttribute("href");
+                String title = productsOnPage.get(j).findElement(By.tagName("h2")).getText();
+                double price = Double.parseDouble(productsOnPage.get(j).findElement(By.className("price")).getText().substring(1));
+                String url = productsOnPage.get(j).findElement(By.tagName("a")).getAttribute("href");
                 products.add(new ProductItem(title, price, url));
             }
         }
         return products;
     }
+
+    public void clickSortByDropdown() {
+        sortByDropdown.click();
+        sleep(2000);
+    }
+
+    public void sortByNameAToZ() {
+        clickSortByDropdown();
+        sortByNameAToZ.click();
+        sleep(2000);
+    }
+
 }
 

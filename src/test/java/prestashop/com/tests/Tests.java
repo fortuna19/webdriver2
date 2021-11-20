@@ -16,10 +16,11 @@ import prestashop.com.utils.ConfProperties;
 
 import java.io.*;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-import static prestashop.com.pages.FullProductItem.filterByColor;
-import static prestashop.com.pages.FullProductItem.filterBySize;
+import static prestashop.com.pages.FullProductItem.*;
 import static prestashop.com.utils.Utils.*;
 
 public class Tests {
@@ -43,14 +44,14 @@ public class Tests {
     }
 
     @BeforeMethod
-    void setupTest() throws InterruptedException {
+    void setupTest() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 1);
 
         driver.get(ConfProperties.getProperty("homepage"));
-        Thread.sleep(5000);
+        sleep(5000);
 
         mainPage = new MainPage(driver);
         loginPage = new LoginPage(driver);
@@ -158,7 +159,7 @@ public class Tests {
 
         logger.info("Filter all products by the Black color and retrieve their titles");
         productsListPage.filterByBlackColor();
-        List<String> productsOnPage = productsListPage.getProductTitlesOnPage();
+        List<String> productsOnPage = productsListPage.getAllProducts().stream().map(e -> e.getTitle().toLowerCase(Locale.ROOT)).collect(Collectors.toList());
 
         logger.info("Verify all products filtered as expected");
         List<String> filteredByColor = filterByColor(fullProductItemList, "Black");
@@ -181,12 +182,37 @@ public class Tests {
 
         logger.info("Filter all products by the S Size and retrieve their titles");
         productsListPage.filterBySizeS();
-        List<String> productsOnPage = productsListPage.getProductTitlesOnPage();
+        List<String> productsOnPage = productsListPage.getAllProducts().stream().map(e -> e.getTitle().toLowerCase(Locale.ROOT)).collect(Collectors.toList());
 
         logger.info("Verify all products filtered as expected");
         List<String> filteredBySizes = filterBySize(fullProductItemList, "S");
         Assert.assertEquals(productsOnPage, filteredBySizes);
     }
+
+    @Test
+    public void sortProducts(){
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        logger.info("Open the main page and click the Hide button");
+        mainPage.clickHideButton();
+
+        logger.info("Switch from top frame to main content");
+        mainPage.switchToMainContent();
+
+        logger.info("Click the All products link");
+        mainPage.clickAllProductsLink();
+
+        logger.info("Sort all products by Name from A to Z");
+        productsListPage.sortByNameAToZ();
+        List<String> productsOnPages = productsListPage.getAllProducts().stream().map(e -> e.getTitle().toLowerCase(Locale.ROOT)).collect(Collectors.toList());
+        cutLongTitles(productsOnPages);
+
+        logger.info("Verify all products are sorted as expected");
+        List<String> sortedProducts = sortByNameAToZ(fullProductItemList);
+        cutLongTitles(sortedProducts);
+        Assert.assertEquals(productsOnPages, sortedProducts);
+    }
+
 
     public static List<FullProductItem> parseAllProducts(List<ProductItem> products) throws InterruptedException {
         List<FullProductItem> fullProductItemList = productPage.getFullProductItemslist(products);

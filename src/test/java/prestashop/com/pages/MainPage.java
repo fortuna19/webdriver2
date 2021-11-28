@@ -13,16 +13,16 @@ public class MainPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//footer[@id='footer']")
+    @FindBy(id = "footer")
     private WebElement footer;
 
-    @FindBy(xpath = "//span[text()='Sign in']")
+    @FindBy(css = ".user-info a")
     private WebElement signInButton;
 
-    @FindBy(xpath = "//span[text()='Hide']")
+    @FindBy(className = "hide-header")
     private WebElement hideButton;
 
-    @FindBy(xpath = "//section[@id='content']/section/a")
+    @FindBy(className = "all-product-link")
     private WebElement allProductsLink;
 
     public void clickHideButton() {

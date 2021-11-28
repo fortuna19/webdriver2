@@ -15,6 +15,7 @@ import prestashop.com.pages.*;
 import prestashop.com.utils.ConfProperties;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -65,6 +66,36 @@ public class Tests {
     @AfterMethod
     void teardown() {
         driver.quit();
+    }
+
+    @Test(enabled = false)
+    public void serializeAllProducts(){
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        logger.info("Open the main page and click the Hide button");
+        mainPage.clickHideButton();
+
+        logger.info("Switch from top frame to main content");
+        mainPage.switchToMainContent();
+
+        logger.info("Click the All products link");
+        mainPage.clickAllProductsLink();
+
+        List<ProductItem> shortProducts = new ArrayList<>();
+        shortProducts = productsListPage.getAllProducts();
+
+        List<FullProductItem> fullProducts = new ArrayList<>();
+        fullProducts = productPage.getFullProductItemslist(shortProducts);
+
+        try {
+            serializeObject(fullProducts, "src/test/resources/product_items.file");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (FullProductItem fullProduct : fullProducts) {
+            System.out.println(fullProduct.toString());
+        }
     }
 
     @Test(priority = 1)
@@ -212,7 +243,6 @@ public class Tests {
         cutLongTitles(sortedProducts);
         Assert.assertEquals(productsOnPages, sortedProducts);
     }
-
 
     public static List<FullProductItem> parseAllProducts(List<ProductItem> products) throws InterruptedException {
         List<FullProductItem> fullProductItemList = productPage.getFullProductItemslist(products);

@@ -13,40 +13,40 @@ public class RegistrationPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//div[@id='customer-form']")
+    @FindBy(className= "register-form")
     private WebElement registrationForm;
 
-    @FindBy(xpath = "(//input[@name='id_gender'])[1]")
+    @FindBy(css = "div.col-md-6.form-control-valign label:first-child")
     private WebElement socialTitleMr;
 
-    @FindBy(xpath = "(//input[@name='id_gender'])[2]")
+    @FindBy(css = "div.col-md-6.form-control-valign label:last-child")
     private WebElement socialTitleMrs;
 
-    @FindBy(xpath = "//input[@id='field-firstname']")
+    @FindBy(id = "field-firstname")
     private WebElement firstNameInput;
 
-    @FindBy(xpath = "//input[@id='field-lastname']")
+    @FindBy(id = "field-lastname")
     private WebElement lastNameInput;
 
-    @FindBy(xpath = "//input[@id='field-email']")
+    @FindBy(id = "field-email")
     private WebElement emailInput;
 
-    @FindBy(xpath = "//input[@id='field-password']")
+    @FindBy(id = "field-password")
     private WebElement passwordInput;
 
-    @FindBy(xpath = "//input[@id='field-birthday']")
+    @FindBy(id = "field-birthday")
     private WebElement birthdateInput;
 
-    @FindBy(xpath = "//input[@name='customer_privacy']")
+    @FindBy(css = "input[name='customer_privacy']")
     private WebElement customerDataPrivacyCheckbox;
 
-    @FindBy(xpath = "//input[@name='psgdpr']")
+    @FindBy(css = "input[name='psgdpr']")
     private WebElement agreeTermsCheckbox;
 
-    @FindBy(xpath = "//button[@type='submit']")
+    @FindBy(css = "button[type='submit']")
     private WebElement saveButton;
 
-    @FindBy(xpath = "//a[@title='View my customer account']/span")
+    @FindBy(className = "account")
     private WebElement userNameLastname;
 
     public void chooseSocialTitle(String socialTitle) {

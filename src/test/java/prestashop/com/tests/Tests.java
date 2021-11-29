@@ -68,7 +68,7 @@ public class Tests {
         driver.quit();
     }
 
-    @Test(enabled = false)
+    @Test(enabled = false) //this test is skipped by default
     public void serializeAllProducts(){
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -242,6 +242,43 @@ public class Tests {
         List<String> sortedProducts = sortByNameAToZ(fullProductItemList);
         cutLongTitles(sortedProducts);
         Assert.assertEquals(productsOnPages, sortedProducts);
+    }
+
+    @Test(priority = 3)
+    public void addProductToWishlist(){
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        logger.info("Open the main page and click the Hide button");
+        mainPage.clickHideButton();
+
+        logger.info("Switch from top frame to main content");
+        mainPage.switchToMainContent();
+
+        logger.info("Log in");
+        mainPage.clickSignInButton();
+        loginPage.inputEmail(ConfProperties.getProperty("email"));
+        loginPage.inputPassword(ConfProperties.getProperty("password"));
+        loginPage.clickSignInButton();
+
+        logger.info("Click My Store button");
+        mainPage.clickMyStoreButton();
+
+        logger.info("Click Add to wishlist icon for the first product on the page");
+        mainPage.clickAddToWishListFirstProduct();
+
+        logger.info("Choose default wishlist");
+        mainPage.clickDefaultWishlist();
+
+        logger.info("Click on the user name");
+        profilePage.clickUserName();
+
+        logger.info("Click on My Wishlist menu");
+        profilePage.clickMyWishlistMenu();
+
+        logger.info("Choose default wishlist");
+        mainPage.clickDefaultWishlist();
+
+        /**** continue work on this test ***/
     }
 
     public static List<FullProductItem> parseAllProducts(List<ProductItem> products) throws InterruptedException {

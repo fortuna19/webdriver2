@@ -85,13 +85,13 @@ public class ProductPage {
 //            String productInStock = inStock.getText();
 
             //***Check that variation title is present and set it
-            if (isPresent("//form[@id='add-to-cart-or-refresh']/div/div/span[@class='control-label']")) {
+            if (isPresent("div.product-variants span.control-label")) {
                 for (int k = 0; k < productVariantsTitle.size(); k++) {
                     variationTitle = productVariantsTitle.get(k).getText();
 
                     //***Retrieve dimension options
                     if (variationTitle.contains("Dimension")) {
-                        if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
+                        if (isPresent("select.form-control option")) {
                             for (int j = 0; j < dimensionOptions.size(); j++) {
                                 String option = dimensionOptions.get(j).getText();
                                 productDimensionOptions.add(option);
@@ -101,7 +101,7 @@ public class ProductPage {
 
                     //***Retrieve paper type options
                     if (variationTitle.contains("Paper Type")) {
-                        if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
+                        if (isPresent("select.form-control option")) {
                             for (int j = 0; j < paperTypeOptions.size(); j++) {
                                 String option = paperTypeOptions.get(j).getText();
                                 productPaperTypeOptions.add(option);
@@ -111,7 +111,7 @@ public class ProductPage {
 
                     //***Retrieve colors
                     if (variationTitle.contains("Color")) {
-                        if (isPresent("//form[@id='add-to-cart-or-refresh']//li/label")) {
+                        if (isPresent("div.clearfix label")) {
                             for (int j = 0; j < colorOptions.size(); j++) {
                                 String option = colorOptions.get(j).getText();
                                 productColorOptions.add(option);
@@ -121,7 +121,7 @@ public class ProductPage {
 
                     //***Retrieve sizes
                     if (variationTitle.contains("Size")) {
-                        if (isPresent("//form[@id='add-to-cart-or-refresh']//option")) {
+                        if (isPresent("select.form-control option")) {
                             for (int j = 0; j < sizeOptions.size(); j++) {
                                 String option = sizeOptions.get(j).getText();
                                 productSizeOptions.add(option);
@@ -130,7 +130,7 @@ public class ProductPage {
                     }
                 }
             }
-            if (isPresent("//section[@class='product-features']//dt") && isPresent("//section[@class='product-features']//dd")) {
+            if (isPresent(".name") && isPresent(".value")) {
                 productDetailsButton.click();
 
                 sleep(2000);
@@ -154,7 +154,7 @@ public class ProductPage {
         return fullProductItemslist;
     }
 
-    public boolean isPresent(String xpath) {
-        return driver.findElements(By.xpath(xpath)).size() > 0;
+    public boolean isPresent(String css) {
+        return driver.findElements(By.cssSelector(css)).size() > 0;
     }
 }

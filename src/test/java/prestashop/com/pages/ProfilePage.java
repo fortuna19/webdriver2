@@ -28,6 +28,9 @@ public class ProfilePage {
     @FindBy(id = "order-slips-link")
     private WebElement creditSlipsMenu;
 
+    @FindBy(id = "wishlist-link")
+    private WebElement myWishlistMenu;
+
     @FindBy(id = "psgdpr-link")
     private WebElement gdprPersonalDataMenu;
 
@@ -60,5 +63,13 @@ public class ProfilePage {
 
     public void clickSignOut() {
         signOutLink.click();
+    }
+
+    public void clickUserName(){
+        userName.click();
+    }
+
+    public void clickMyWishlistMenu(){
+        myWishlistMenu.click();
     }
 }

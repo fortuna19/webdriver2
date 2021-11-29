@@ -25,6 +25,15 @@ public class MainPage {
     @FindBy(className = "all-product-link")
     private WebElement allProductsLink;
 
+    @FindBy(css = "div.products.row .product:first-child .wishlist-button-add")
+    private  WebElement addToWishlistFirstProduct;
+
+    @FindBy(css = ".wishlist-list li:first-child p")
+    private WebElement defaultWishlist;
+
+    @FindBy(css = "#_desktop_logo")
+    private WebElement myStoreButton;
+
     public void clickHideButton() {
         hideButton.click();
     }
@@ -41,4 +50,15 @@ public class MainPage {
         allProductsLink.click();
     }
 
+    public void clickAddToWishListFirstProduct(){
+        addToWishlistFirstProduct.click();
+    }
+
+    public void clickDefaultWishlist(){
+        defaultWishlist.click();
+    }
+
+    public void clickMyStoreButton(){
+        myStoreButton.click();
+    }
 }

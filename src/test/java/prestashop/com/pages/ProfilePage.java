@@ -13,25 +13,28 @@ public class ProfilePage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//span[text()='Oleksandr Rozhok']")
+    @FindBy(css = ".account span")
     private WebElement userName;
 
-    @FindBy(xpath = "//a[@id='identity-link']")
+    @FindBy(id = "identity-link")
     private WebElement informationMenu;
 
-    @FindBy(xpath = "//a[@id='address-link']")
+    @FindBy(id = "address-link")
     private WebElement addFirstAddressMenu;
 
-    @FindBy(xpath = "//a[@id='history-link']")
+    @FindBy(id = "history-link")
     private WebElement historyMenu;
 
-    @FindBy(xpath = "//a[@id='order-slips-link']")
+    @FindBy(id = "order-slips-link")
     private WebElement creditSlipsMenu;
 
-    @FindBy(xpath = "//a[@id='psgdpr-link']")
+    @FindBy(id = "wishlist-link")
+    private WebElement myWishlistMenu;
+
+    @FindBy(id = "psgdpr-link")
     private WebElement gdprPersonalDataMenu;
 
-    @FindBy(xpath = "//footer[@class='page-footer']//a")
+    @FindBy(css = ".page-footer a")
     private WebElement signOutLink;
 
     public String getUserName() {
@@ -60,5 +63,13 @@ public class ProfilePage {
 
     public void clickSignOut() {
         signOutLink.click();
+    }
+
+    public void clickUserName(){
+        userName.click();
+    }
+
+    public void clickMyWishlistMenu(){
+        myWishlistMenu.click();
     }
 }

@@ -14,16 +14,16 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//input[@class='form-control']")
+    @FindBy(id = "field-email")
     private WebElement emailInput;
 
-    @FindBy(xpath = "//input[@class='form-control js-child-focus js-visible-password']")
+    @FindBy(id = "field-password")
     private WebElement passwordInput;
 
-    @FindBy(xpath = "//button[@id='submit-login']")
+    @FindBy(id = "submit-login")
     private WebElement signInButton;
 
-    @FindBy(xpath = "//div[@class='no-account']/a")
+    @FindBy(css = ".no-account a")
     private WebElement createNewAccountLink;
 
     public void inputEmail(String email) {
